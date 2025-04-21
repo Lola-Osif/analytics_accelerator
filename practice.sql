@@ -6,7 +6,8 @@ LIMIT 15
 
   
 /* ORDER BY arranges a  list in ascending order based on column selected, add DESCat the end for descending order
-  ORDER BY must precede LIMIT for code to run */
+  ORDER BY must precede LIMIT for code to run
+  WHERE precedes ORDER BY*/
 SELECT id, occurred_at, total_amt_usd
 FROM orders
 ORDER BY total_amt_usd DESC
@@ -58,3 +59,43 @@ SELECT *
 FROM accounts
 WHERE name LIKE 'C%'
 
+/* IN is also used with WHERE to return rows related to for one or more data from a coulmn, its similar to OR
+  IN requires parenthesis*/
+SELECT name, primary_poc, sales_rep_id
+FROM accounts
+WHERE name IN ('Walmart', 'Target', 'Nordstrom');
+
+/* NOT LIKE OR NOT IN is used for reverse cases of LIKE and IN
+AND is used to combine multiple conditions, table name needs to be stated after the AND command*/
+SELECT name
+FROM accounts
+WHERE name NOT LIKE 'C%' AND name NOT LIKE'%s'
+
+/* AND & BETWEEN can be used together to simply AND statements for a single column, works best with numerical data
+  Both numbers stated are included */
+SELECT occurred_at, gloss_qty
+FROM orders
+WHERE gloss_qty BETWEEN 24 AND 29
+
+/* Both codes below return the same values using IN or AND */
+SELECT *
+FROM web_events 
+WHERE channel IN ('organic', 'adwords')
+ORDER BY occurred_at DESC;
+
+SELECT *
+FROM web_events 
+WHERE channel ='organic' OR channel = 'adwords'
+ORDER BY occurred_at DESC
+
+/* Note that with dates the time 00:00:00 is assumed, so to capture al 2016 dates, endpoint should be 2017-01-01 */
+SELECT *
+FROM web_events 
+WHERE channel IN ('organic', 'adwords') AND occurred_at BETWEEN '2016-01-01' AND '2017-01-01'
+ORDER BY occurred_at DESC
+
+/* Samples combining multiple SQL commands */
+SELECT *
+FROM orders
+WHERE standard_qty =0 
+AND (gloss_qty> 1000 OR poster_qty>1000)
