@@ -94,8 +94,14 @@ FROM web_events
 WHERE channel IN ('organic', 'adwords') AND occurred_at BETWEEN '2016-01-01' AND '2017-01-01'
 ORDER BY occurred_at DESC
 
-/* Samples combining multiple SQL commands */
+/* Samples combining multiple SQL commands
+  parenthesis are important to ensure the logic is executed correctly*/
 SELECT *
 FROM orders
 WHERE standard_qty =0 
 AND (gloss_qty> 1000 OR poster_qty>1000)
+
+FROM accounts
+WHERE (name LIKE 'C%' OR name LIKE 'W%') 
+AND (primary_poc LIKE '%ana%' OR primary_poc LIKE '%Ana%') 
+AND (primary_poc NOT LIKE '%eana%');
