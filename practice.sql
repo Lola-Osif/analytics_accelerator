@@ -1,5 +1,6 @@
 -- Notes from SQL udacity course--
-/* LIMIT returns first entries up to the no of rows specified */
+/* LIMIT returns first entries up to the no of rows specified, OFFSET returns entries after the no of rows specified,
+DISTINCT removes duplicates */
 SELECT occurred_at, account_id, channel
 FROM web_events
 LIMIT 15
@@ -104,4 +105,47 @@ AND (gloss_qty> 1000 OR poster_qty>1000)
 FROM accounts
 WHERE (name LIKE 'C%' OR name LIKE 'W%') 
 AND (primary_poc LIKE '%ana%' OR primary_poc LIKE '%Ana%') 
-AND (primary_poc NOT LIKE '%eana%');
+AND (primary_poc NOT LIKE '%eana%');\
+
+/* JOINS are used to connect tables, note the syntax to extract columns from each table, 
+the ON statements shows the connecting parameter between tables (PK=FK)*/
+SELECT orders.standard_qty, orders.gloss_qty, 
+          orders.poster_qty,  accounts.website, 
+          accounts.primary_poc
+FROM orders
+JOIN accounts
+ON orders.account_id = accounts.id
+
+SELECT *
+FROM web_events
+JOIN accounts
+ON web_events.account_id = accounts.id
+JOIN orders
+ON accounts.id = orders.account_id
+
+/* Aliases make codes simpler, can be used for table name or column name by inserting the alias after a space*/  
+SELECT a.primary_poc, w.occurred_at, w.channel, a.name
+FROM web_events w
+JOIN accounts a
+ON w.account_id =a.id
+WHERE a.name ='Walmart'
+
+/* In the code below, all columns selected are titled name and the results didnt come out correctly until aliases were assigned*/  
+SELECT r.name region , s.name rep, a.name account
+FROM sales_reps s
+JOIN accounts a
+ON s.id = a.sales_rep_id
+JOIN region r
+ON r.id= s.region_id
+ORDER BY a.name;
+
+
+/* if two tables are not directly connected, you have to join the connecting table even if you are not extracting any data from it */ 
+SELECT r.name region, a.name account, o.total_amt_usd/(o.total+0.01) unit_price
+FROM orders o
+JOIN accounts a
+ON o.account_id = a.id
+JOIN sales_reps s
+ON s.id =a.sales_rep_id
+JOIN region r
+ON r.id= s.region_id
