@@ -6,7 +6,7 @@ FROM web_events
 LIMIT 15
 
   
-/* ORDER BY arranges a  list in ascending order based on column selected, add DESCat the end for descending order
+/* ORDER BY arranges a  list in ascending order based on column selected, add DESC at the end for descending order
   ORDER BY must precede LIMIT for code to run
   WHERE precedes ORDER BY*/
 SELECT id, occurred_at, total_amt_usd
@@ -89,7 +89,7 @@ FROM web_events
 WHERE channel ='organic' OR channel = 'adwords'
 ORDER BY occurred_at DESC
 
-/* Note that with dates the time 00:00:00 is assumed, so to capture al 2016 dates, endpoint should be 2017-01-01 */
+/* Note that with dates the time 00:00:00 is assumed, so to capture all 2016 dates, endpoint should be 2017-01-01 */
 SELECT *
 FROM web_events 
 WHERE channel IN ('organic', 'adwords') AND occurred_at BETWEEN '2016-01-01' AND '2017-01-01'
