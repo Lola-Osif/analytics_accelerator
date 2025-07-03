@@ -1,4 +1,4 @@
--- Notes from SQL udacity course--
+-- SQL practice including aggregate functions, subqueries and Common Table Expressions (CTEs)--
 /* LIMIT returns first entries up to the no of rows specified, OFFSET returns entries after the no of rows specified,
 DISTINCT removes duplicates */
 SELECT occurred_at, account_id, channel
